@@ -52,6 +52,9 @@ import Card from '../components/Card.astro';
 
 				<div id="premium-form" class="premium-modal">
 					<form class="modal-content animate"
+
+					call a function in javascript that calls something from AuthenticationController 
+					
 					action="/action_page.php"
 					method="POST">
 					<span 
@@ -273,10 +276,28 @@ import Card from '../components/Card.astro';
 	
 
 		<script>
+			
 			document.addEventListener("DOMContentLoaded", e=> {
+
+				fetch('http://localhost:8080/')
+            	.then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            	})
+            	.then(data => {
+                	document.getElementById('response')!.textContent = data;
+            	})
+            	.catch(error => {
+                	console.error('There was a problem with the fetch operation:', error);
+            	});
+
+
+
 				//needs url of websocket server
 				//wss is secure form of websockets, use that instead for realsies
-				const ws = new WebSocket("ws://localhost:8081");
+				const ws = new WebSocket("ws://localhost:8081"); //change this to the port of joe's game server
 
 				//listening for connection to server
 				ws.addEventListener("open", e=> {
