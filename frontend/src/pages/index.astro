@@ -134,7 +134,9 @@ import Card from '../components/Card.astro';
 
 				<!-- create new account form -->
 				<div id="signup-form" class="signup-modal">
-					<form class="modal-content animate">
+					<form class="modal-content animate"
+					      action="localhost:8080/auth/signup"
+						  method="POST">
 					<!-- put backend signup stuff in form?-->
 
 						<!-- another closing button -->
@@ -265,7 +267,7 @@ import Card from '../components/Card.astro';
 				</section>
 
 				<section id="bottom">
-					<h1>Past Races</h1>
+					<h1>Last race</h1>
 					<div id="all results">
 						<!-- needs javascript to add new section for each new race result -->
 						<table id="allResultsTable">
@@ -290,7 +292,7 @@ import Card from '../components/Card.astro';
 			</main>
 
 			<footer>
-				<h1>Footer</h1>
+				<h1>All previous races</h1>
 				<!-- idk if we need this, its just here -->
 			</footer>
 		</div>
@@ -300,6 +302,7 @@ import Card from '../components/Card.astro';
 			
 			document.addEventListener("DOMContentLoaded", e=> {
 
+				//connects to http server at post 8080, probably doesnt work, this is just code i got online
 				fetch('http://localhost:8080/')
             	.then(response => {
                 if (!response.ok) {
@@ -314,8 +317,6 @@ import Card from '../components/Card.astro';
                 	console.error('There was a problem with the fetch operation:', error);
             	});
 
-
-
 				//needs url of websocket server
 				//wss is secure form of websockets, use that instead for realsies
 				const ws = new WebSocket("ws://localhost:8081"); //change this to the port of joe's game server
@@ -325,15 +326,6 @@ import Card from '../components/Card.astro';
 
 					//on connection, display this message
 					console.log("We are connected");
-				
-					//sends a message to the server (on connection)
-					//stringify converts anything to a json object
-					/*
-					ws.send(JSON.stringify({
-						x: 254,
-						y: 100
-					}));
-					*/
 
 					function calcBet(bet: number, win: number){
 						//figure out how much you get
@@ -351,6 +343,7 @@ import Card from '../components/Card.astro';
         					var msLeft = endTime - (+new Date);
         					if ( msLeft < 1000 ) {
             					element!.innerHTML = "Time is up!";
+								countdown(0,10);
         					} else {
             					var time = new Date( msLeft );
            	 					var hours = time.getUTCHours();
@@ -362,7 +355,7 @@ import Card from '../components/Card.astro';
     					updateTimer();
 					}
 
-					countdown(15,0);
+					countdown(0,10);
 				});
 
 
@@ -572,7 +565,7 @@ import Card from '../components/Card.astro';
 							const checkbox = document.createElement('input');
 							checkbox.type = 'checkbox';
 							checkbox.id = 'betCheckbox';
-
+							
 							checkCell.appendChild(checkbox);
 							valueCell.textContent = value;
           					row.appendChild(valueCell);
