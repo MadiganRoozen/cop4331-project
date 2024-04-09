@@ -542,6 +542,11 @@ import Card from '../components/Card.astro';
 						tbody!.appendChild(table);
 					}
 
+					//adds a new row to the top of the allRaceResultsTable each time a winner is announced
+					function addNewRow(){
+						
+					}
+
 					function makeBetTable(){
 						let jsonData = JSON.parse(event.data);
 						let tbody = document.querySelector("#betTable tbody");
@@ -564,8 +569,27 @@ import Card from '../components/Card.astro';
 							const checkCell = document.createElement('td');
 							const checkbox = document.createElement('input');
 							checkbox.type = 'checkbox';
-							checkbox.id = 'betCheckbox';
-							
+							checkbox.className = 'betCheckbox';
+
+							checkbox.addEventListener("click", function() {
+								const checkboxes = document.querySelectorAll('.betCheckbox');
+								if(this.checked){
+									checkboxes.forEach(cb =>{
+										if(cb != this){
+											checkboxes.forEach(cb => {
+                    							(cb as HTMLInputElement).disabled = true;
+                							});
+											this.disabled = false;
+										}
+									});
+								}
+								else{
+									checkboxes.forEach(cb => {
+                    					(cb as HTMLInputElement).disabled = false;
+                					});
+								}
+							});
+								
 							checkCell.appendChild(checkbox);
 							valueCell.textContent = value;
           					row.appendChild(valueCell);
@@ -577,26 +601,18 @@ import Card from '../components/Card.astro';
 						console.log("table created");
 					}
 
-					//adds a new row to the top of the allRaceResultsTable each time a winner is announced
-					function addNewRow(){
-
-					}
-
-					if(event.data.includes("dateTime")){
-						makeAllRaceResultsTable();
-					}
-					else if(!event.data.includes("winner")){
+					
+					if(!event.data.includes("winner")){
 						makeBetTable();
 						makeRaceDetailsTable();
-					}	
-					//the only other message we will be getting (so far 3/31/24) is one that tells us the winner
-					else{
-						makeLastRaceResultTable();
+					}
+					else if(event.data.includes("dateTime")){
+						makeAllRaceResultsTable();
 						addNewRow();
 					}
-
-
-
+					else if(event.data.includes("winner")){
+						makeLastRaceResultTable();
+					}
 				});
 
 			});
