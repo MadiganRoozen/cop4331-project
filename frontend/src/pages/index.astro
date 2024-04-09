@@ -52,9 +52,6 @@ import Card from '../components/Card.astro';
 
 				<div id="premium-form" class="premium-modal">
 					<form class="modal-content animate"
-
-					call a function in javascript that calls something from AuthenticationController 
-					
 					action="/action_page.php"
 					method="POST">
 					<span 
@@ -301,6 +298,7 @@ import Card from '../components/Card.astro';
 
 				//listening for connection to server
 				ws.addEventListener("open", e=> {
+
 					//on connection, display this message
 					console.log("We are connected");
 				
@@ -312,6 +310,11 @@ import Card from '../components/Card.astro';
 						y: 100
 					}));
 					*/
+
+					function calcBet(bet: number, win: number){
+						//figure out how much you get
+					}
+
 					function countdown(min: number, sec: number){
     					var element = document.getElementById("timer");
 						var endTime = (+new Date) + 1000*(60*(min)+sec) + 500;
