@@ -190,12 +190,10 @@ import Card from '../components/Card.astro';
 						<div id="race-details">
 							<table id="raceTrackWeatherTable">
 								<tbody>
-									<!--dynamically populated-->
 								</tbody>
 							</table>
 							<table id="raceDetailsTable">
 								<tbody>
-								  <!--dynamically populated-->
 								</tbody>
 							  </table>
 						
@@ -253,12 +251,31 @@ import Card from '../components/Card.astro';
 							<!-- Table that will show the previous race details, the winner of the race, and whether or not the user won -->
 							<table id="lastRaceTrackWeatherTable">
 								<tbody>
-									<!--dynamically populated -->
+									<tr>
+										<td>Track</td> <td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>Weather</td> <td>&nbsp;</td>
+									</tr>
 								</tbody>
 							</table>
 							<table id="lastRaceResultTable">
 								<tbody>
-								  <!--dynamically populated-->
+									<tr>
+										<td>Winner</td> <td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>maneStyle</td> <td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>race</td> <td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>injuries</td> <td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>tailLength</td> <td>&nbsp;</td>
+									</tr>
 								</tbody>
 							  </table>
 						</div>
@@ -268,21 +285,11 @@ import Card from '../components/Card.astro';
 
 				<section id="bottom">
 					<h1>Last race</h1>
-					<div id="all results">
-						<!-- needs javascript to add new section for each new race result -->
-						<table id="allResultsTable">
-						<!-- 
-							<thead>
-								<tr>
-									<th>Track</th>
-									<th>Weather</th>
-									<th>Winner</th>
-								</tr>
-							</thead>
-						-->
+					<div id="last results">
+						<!-- Will show results from the last few races-->
+						<table id="lastResultsTable">
 							<tbody>
-								<!-- dynamically populated with a file containing all the previous winners, probably from database, on server connection -->
-								<!-- New row is added to the top everytime a race happens and winners are displayed -->
+
 							</tbody>
 						</table>
 			
@@ -293,7 +300,27 @@ import Card from '../components/Card.astro';
 
 			<footer>
 				<h1>All previous races</h1>
-				<!-- idk if we need this, its just here -->
+				<div id="all results">
+
+					<button 
+					onclick="showAllResults()"
+					style=
+					"width: auto;
+					float: right;
+					margin: 0px auto;
+					border-radius: 6px;
+					position: absolute;
+					top: 15px;
+					right: 15px;
+					"
+					>Login
+				</button>
+					<!--this table does not display until the button is pressed-->
+					<table id="allResultsTable" style="display: none">
+						<tbody>
+
+						</tbody>
+					</table>
 			</footer>
 		</div>
 	
@@ -364,7 +391,6 @@ import Card from '../components/Card.astro';
 					//event is an object which has properties, event.data would be the message that was received
 					console.log(event);
 
-
 					//dynamically creates a table for the upcoming race details using json objects from the HorseRace.java code running on its own server
 					function makeRaceDetailsTable() {
     					let jsonData = JSON.parse(event.data);
@@ -387,6 +413,9 @@ import Card from '../components/Card.astro';
 							}
 						}
 						tbody!.appendChild(table1);
+
+
+
 					
 						tbody = document.querySelector("#raceDetailsTable tbody");
     					let table2 = document.createElement("table");
@@ -449,6 +478,7 @@ import Card from '../components/Card.astro';
 						tbody!.appendChild(table2);
   					}
 
+					//makes the dropdown buttons in the race details table work
 					function showRows(buttonName: string){
 						var i = parseInt(buttonName);
 						var hrows = document.querySelectorAll(".hrow"+i);
@@ -511,7 +541,7 @@ import Card from '../components/Card.astro';
 							}
 						}
 						tbody!.appendChild(table2);
-    				
+
 					}
 
 					//creates the table with all the previous race results on server startup
@@ -540,6 +570,11 @@ import Card from '../components/Card.astro';
 							}
 						}
 						tbody!.appendChild(table);
+					}
+
+					//checks if the user has premium and displays the results table if so. If not, the form to get premium shouyld pop up
+					function showAllResults(){
+
 					}
 
 					//adds a new row to the top of the allRaceResultsTable each time a winner is announced
@@ -603,15 +638,15 @@ import Card from '../components/Card.astro';
 
 					
 					if(!event.data.includes("winner")){
-						makeBetTable();
-						makeRaceDetailsTable();
+					makeBetTable();
+					makeRaceDetailsTable();
 					}
 					else if(event.data.includes("dateTime")){
-						makeAllRaceResultsTable();
-						addNewRow();
+					makeAllRaceResultsTable();
+					addNewRow();
 					}
 					else if(event.data.includes("winner")){
-						makeLastRaceResultTable();
+					makeLastRaceResultTable();
 					}
 				});
 
