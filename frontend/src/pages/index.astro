@@ -499,7 +499,7 @@ import Card from '../components/Card.astro';
 					function makeLastRaceResultTable(){
 						let jsonData = JSON.parse(event.data);
 
-						let tbody = document.querySelector("#lastRaceTrackWeatherTable tbody")
+						let lastTable = document.getElementById("lastRaceTrackWeatherTable")
 						let table1 = document.createElement("table");
 
 						for(var key in jsonData[0]){
@@ -516,9 +516,9 @@ import Card from '../components/Card.astro';
 								table1.appendChild(row);
 							}
 						}
-						tbody!.appendChild(table1);
+						lastTable?.replaceWith(table1);
 
-						tbody = document.querySelector("#lastRaceResultTable tbody");
+						lastTable = document.getElementById("lastRaceResultTable");
     					let table2 = document.createElement("table");
 
 						for(var i=1; i<jsonData.length; i++){
@@ -540,7 +540,7 @@ import Card from '../components/Card.astro';
 								}
 							}
 						}
-						tbody!.appendChild(table2);
+						lastTable?.replaceWith(table2);
 
 					}
 
